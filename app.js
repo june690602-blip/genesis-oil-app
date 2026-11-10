@@ -354,5 +354,3 @@
 
   document.addEventListener('DOMContentLoaded', init);
 })();
-
-/* 배포 확인용 */
