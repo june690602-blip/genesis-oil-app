@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#181a20">
+  <meta name="robots" content="noindex">
+  <title>엔진오일</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="엔진오일">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<header class="head">
+  <h1>엔진오일</h1>
+  <button type="button" id="refresh" class="icon-btn" aria-label="새로고침">↻</button>
+</header>
+
+<p id="msg" class="msg" hidden></p>
+
+<!-- 현황 -->
+<main id="view-main" hidden>
+  <section class="card" id="status-card">
+    <p class="card-label">남은 거리</p>
+    <p class="big" id="remain">—</p>
+    <p class="sub" id="remain-sub">—</p>
+  </section>
+
+  <dl class="rows">
+    <div class="row"><dt>예상 주행거리</dt><dd id="est">—</dd></div>
+    <div class="row"><dt>마지막 실측</dt><dd id="measured">—</dd></div>
+    <div class="row"><dt>마지막 교체</dt><dd id="changed">—</dd></div>
+    <div class="row"><dt>교체 권장</dt><dd id="due">—</dd></div>
+    <div class="row"><dt>하루 평균</dt><dd id="avg">—</dd></div>
+  </dl>
+
+  <div class="actions">
+    <button type="button" id="go-km" class="btn primary">계기판 숫자 입력</button>
+    <button type="button" id="go-change" class="btn">엔진오일 갈았어요</button>
+  </div>
+
+  <nav class="links" id="order-links"></nav>
+
+  <button type="button" id="go-set" class="textlink">설정</button>
+</main>
+
+<!-- 숫자 입력 -->
+<section id="view-input" class="sheet" hidden>
+  <h2 id="input-title">계기판 숫자 입력</h2>
+  <p class="hint" id="input-hint"></p>
+  <input id="km" class="kminput" type="text" inputmode="numeric" autocomplete="off"
+         enterkeyhint="done" placeholder="0" aria-label="주행거리 km">
+  <p class="unit">km</p>
+  <p class="warn" id="input-warn" hidden></p>
+  <div class="actions">
+    <button type="button" id="submit" class="btn primary">보내기</button>
+    <button type="button" id="cancel" class="btn">취소</button>
+  </div>
+</section>
+
+<!-- 설정 -->
+<section id="view-set" class="sheet" hidden>
+  <h2>설정</h2>
+  <p class="hint">
+    이 앱은 GitHub 저장소에 기록합니다. 아래 토큰은 <b>이 폰에만</b> 저장되고
+    다른 곳으로 가지 않습니다.
+  </p>
+  <label class="field">
+    <span>GitHub 토큰</span>
+    <input id="token" type="password" autocomplete="off" placeholder="github_pat_...">
+  </label>
+  <p class="hint" id="token-state"></p>
+  <div class="actions">
+    <button type="button" id="save-token" class="btn primary">저장</button>
+    <button type="button" id="close-set" class="btn">닫기</button>
+  </div>
+  <button type="button" id="clear-token" class="textlink danger">토큰 지우기</button>
+</section>
+
+<script src="app.js" defer></script>
+</body>
+</html>

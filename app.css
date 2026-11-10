@@ -1,0 +1,129 @@
+:root {
+  --bg: #181a20;
+  --card: #22252e;
+  --line: #31353f;
+  --text: #f2f3f5;
+  --dim: #9aa0ab;
+  --oil: #ffb020;
+  --ok: #4ac97e;
+  --late: #ff6b5e;
+  --tap: 48px;            /* 손가락으로 누를 최소 높이 */
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  margin: 0;
+  padding: 0 16px calc(24px + env(safe-area-inset-bottom));
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Malgun Gothic", sans-serif;
+  /* 숫자가 세로로 줄 맞게 */
+  font-variant-numeric: tabular-nums;
+}
+
+.head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: calc(12px + env(safe-area-inset-top)) 0 12px;
+}
+.head h1 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: -0.2px; }
+
+.icon-btn {
+  width: var(--tap); height: var(--tap);
+  border: 0; border-radius: 12px;
+  background: var(--card); color: var(--text);
+  font-size: 20px; cursor: pointer;
+}
+.icon-btn:active { background: var(--line); }
+.icon-btn.spin { animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.msg {
+  margin: 0 0 12px; padding: 12px 14px;
+  border-radius: 12px; background: var(--card);
+  font-size: 14px; color: var(--dim);
+}
+.msg.bad { color: var(--late); }
+.msg.good { color: var(--ok); }
+
+/* 현황 카드 */
+.card {
+  background: var(--card); border-radius: 18px;
+  padding: 22px 20px; text-align: center;
+}
+.card-label { margin: 0; font-size: 13px; color: var(--dim); }
+.big {
+  margin: 6px 0 4px;
+  font-size: 40px; font-weight: 700; letter-spacing: -1px;
+  color: var(--oil);
+}
+.big.late { color: var(--late); }
+.sub { margin: 0; font-size: 14px; color: var(--dim); }
+
+/* 세부 */
+.rows { margin: 18px 0 0; padding: 0; }
+.row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 12px; padding: 12px 2px; border-bottom: 1px solid var(--line);
+}
+.row dt { color: var(--dim); font-size: 14px; }
+.row dd { margin: 0; font-size: 15px; text-align: right; }
+
+.actions { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+
+.btn {
+  min-height: var(--tap); padding: 0 18px;
+  border: 1px solid var(--line); border-radius: 14px;
+  background: var(--card); color: var(--text);
+  font-size: 16px; font-weight: 500; cursor: pointer;
+}
+.btn:active { background: var(--line); }
+.btn.primary { background: var(--oil); border-color: var(--oil); color: #221a06; font-weight: 700; }
+.btn.primary:active { filter: brightness(.9); }
+.btn[disabled] { opacity: .5; }
+
+.links { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+.links a {
+  min-height: var(--tap); display: flex; align-items: center;
+  padding: 0 16px; border-radius: 12px;
+  background: var(--card); color: var(--text);
+  text-decoration: none; font-size: 15px;
+}
+.links a::after { content: "›"; margin-left: auto; color: var(--dim); font-size: 20px; }
+
+.textlink {
+  display: block; width: 100%; margin: 22px 0 0; padding: 12px;
+  border: 0; background: none; color: var(--dim);
+  font-size: 14px; text-decoration: underline; cursor: pointer;
+}
+.textlink.danger { color: var(--late); }
+
+/* 입력 · 설정 */
+.sheet { padding-top: 8px; }
+.sheet h2 { margin: 0 0 6px; font-size: 20px; }
+.hint { margin: 0 0 16px; font-size: 14px; color: var(--dim); }
+
+.kminput {
+  width: 100%; margin: 8px 0 0; padding: 14px 16px;
+  border: 1px solid var(--line); border-radius: 14px;
+  background: var(--card); color: var(--text);
+  font-size: 34px; font-weight: 700; text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.kminput:focus { outline: 2px solid var(--oil); }
+.unit { margin: 8px 0 0; text-align: center; color: var(--dim); font-size: 14px; }
+
+.warn { margin: 12px 0 0; font-size: 14px; color: var(--late); }
+
+.field { display: block; margin: 0 0 8px; }
+.field span { display: block; margin-bottom: 6px; font-size: 14px; color: var(--dim); }
+.field input {
+  width: 100%; min-height: var(--tap); padding: 0 14px;
+  border: 1px solid var(--line); border-radius: 12px;
+  background: var(--card); color: var(--text); font-size: 15px;
+}
+.field input:focus { outline: 2px solid var(--oil); }
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-btn.spin { animation: none; }
+}
