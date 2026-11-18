@@ -15,8 +15,9 @@
   var POLL_MS = 5000;
   var POLL_TRIES = 15;                  // 워크플로가 보통 40초쯤 걸린다
 
-  var PLAUSIBLE_FACTOR = 2;             // src/estimate.py 와 같은 값
+  var MAX_KM_PER_DAY = 1200;            // src/estimate.py 와 같은 값 — 물리적 한계
   var PLAUSIBLE_MARGIN_KM = 2000;
+  var CONFIRM_GAP_KM = 3000;            // 추정과 이만큼 다르면 오타인지 한 번 묻는다
 
   var $ = function (id) { return document.getElementById(id); };
   var state = null;
@@ -85,11 +86,11 @@
     };
   }
 
+  // 상한은 일평균이 아니라 물리적 한계로 잡는다. 일평균으로 잡았더니 안 타던 시기 뒤에
+  // 다시 많이 탄 진짜 값이 거부됐고, 거부되면 일평균도 안 바뀌어 빠져나오지 못했다.
   function plausibleLimit(odo, today) {
     var days = Math.max(daysBetween(odo.last_measured_date, today), 1);
-    return odo.last_measured_km
-      + Math.round(days * odo.daily_avg_km * PLAUSIBLE_FACTOR)
-      + PLAUSIBLE_MARGIN_KM;
+    return odo.last_measured_km + days * MAX_KM_PER_DAY + PLAUSIBLE_MARGIN_KM;
   }
 
   /* ---------- 표시 ---------- */
@@ -228,7 +229,14 @@
         return;
       }
       if (value > plausibleLimit(state.odometer, todayISO())) {
-        warn('그동안 달렸을 수 있는 거리보다 큽니다. 계기판 숫자가 맞나요?');
+        warn('하루 ' + km(MAX_KM_PER_DAY) + '씩 달려도 닿지 않는 값입니다. 자릿수를 확인해주세요.');
+        return;
+      }
+      // 손으로 넣을 때는 오타가 난다. 상한을 넓힌 대신, 추정과 크게 다르면 막지 않고 한 번 묻는다.
+      var gap = value - estimateKm(state.odometer, todayISO());
+      if (Math.abs(gap) > CONFIRM_GAP_KM &&
+          !window.confirm('예상 주행거리와 ' + km(Math.abs(gap)) + ' 차이 납니다.\n'
+                          + km(value) + ' 이 계기판 숫자가 맞나요?')) {
         return;
       }
     }
